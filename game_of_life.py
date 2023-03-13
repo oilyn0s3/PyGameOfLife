@@ -36,19 +36,22 @@ def update(frameNum, img, grid, N):
         for j in range(N):
             # 8 neighbour sum using toroidal boundary condition
             # x and y warp around forming a toroidal surface instead of a plain
-            total = int((grid[i, (j-1)%])
-                )
+            total = int((grid[i, (j-1)%N] + grid[i, (j+1)%N] +
+                        grid[(i-1)%N, j] + grid[(i+1)%N, j] +
+                        grid[(i-1)%N, (j-1)%N] + grid[(i-1)%N, (j+1)%N] +
+                        grid[(i+1)%N, (j-1)%N] + grid[(i+1)%N, (j+1)%N])/255)
     
-grid = np.zeros(N*N).reshape(N,N)
-addGlider(1, 1, grid)
-
-# Conway's Rules
-if grid[i, j] == ON:
-    if (total < 2) or (total > 3):
-        newGrid[i, j] = OFF
-else:
-    if total == 3:
-        newGrid[i, j] = ON
+            # Conway's Rules
+            if grid[i, j] == ON:
+                if (total < 2) or (total > 3):
+                    newGrid[i, j] = OFF
+            else:
+                if total == 3:
+                    newGrid[i, j] = ON
+    # update data
+    img.set_data(newGrid)
+    grid[:] = newGrid[:]
+    return img,
 
 
 # main function
@@ -60,7 +63,8 @@ def main():
     parser.add_argument('--grid-size', dest='N', required=False)
     parser.add_argument('--mov-file', dest='movfile', required=False)
     parser.add_argument('--interval', dest='interval', required=False)
-    parser.add_argument('--glider', dest='store_true', required=False)
+    parser.add_argument('--glider', action='store_true', required=False)
+    parser.add_argument('--gosper', action='store_true', required=False)
     args = parser.parse_args()
 
     # set grid size 
@@ -94,3 +98,7 @@ def main():
     if args.movfile:
         anim.save(args.movfile, fps=30, extra_args=['-vcodec', 'libx264'])
     plt.show()
+    
+# main
+if __name__ == '__main__':
+    main()

@@ -61,7 +61,7 @@ def main():
     
     # add arguments
     parser.add_argument('--grid-size', dest='N', required=False) # for definig a custom grid size
-    parser.add_argument('--mov-file', dest='movfile', required=False) # file name for output video file
+    parser.add_argument('--save-file', dest='savefile', required=False) # file name for output video file
     parser.add_argument('--interval', dest='interval', required=False) # update interval for the animation 
     parser.add_argument('--glider', action='store_true', required=False) # to add the glider pattern as the initial input, if omitted the grid would be randomly populated
     parser.add_argument('--gosper', action='store_true', required=False) # to add the gosper pattern as the initial input
@@ -89,15 +89,21 @@ def main():
 
     # animation
     fig, ax = plt.subplots()
-    img = ax.imshow(grid, interpolation="nearest")
+    img = ax.imshow(grid, interpolation="nearest", cmap='gray') #Greys
     anim = animation.FuncAnimation(fig, update, fargs=(img, grid, N, ), 
-                                   frames = 10,
+                                   frames = 100,
                                    interval = updateInterval,
                                    save_count=50)
     
     # output file
-    if args.movfile:
-        anim.save(args.movfile, fps=30, extra_args=['-vcodec', 'libx264'])
+    if args.savefile:
+        print("Writing animation...")
+        argFile = args.savefile
+        writerV = animation.FFMpegWriter(fps=10)
+        anim.save(argFile, writer= writerV)
+        print(f"\nAnimation Saved Successfully as {argFile}!")
+        return
+        #anim.save(args.movfile, fps=30, extra_args=['-vcodec', 'libx264'])
     plt.show()
     
 # main

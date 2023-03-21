@@ -2,6 +2,7 @@
 A simple script for simulating Conway's Game of Life. It works by creating an N×N grid of cells and simulates the 
 evolution of the system over time by applying the rules of Conway’s Game of Life. It then displays the state of the game at each time step 
 and provides ways to save the output to a file and also set the initial condition of the system to either a random distribution or a predesigned pattern.
+![Sample animation output of this script](/assets/clip.gif)
 
 ### How it works
 The Game of Life is built on a grid of 9x9, every cell here has 8 neighbouring cells. The value of a given cell at a given instant 

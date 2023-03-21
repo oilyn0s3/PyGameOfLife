@@ -60,11 +60,12 @@ def main():
     parser = argparse.ArgumentParser(description="Runs Conway's Game of Life simulation")
     
     # add arguments
-    parser.add_argument('--grid-size', dest='N', required=False)
-    parser.add_argument('--mov-file', dest='movfile', required=False)
-    parser.add_argument('--interval', dest='interval', required=False)
-    parser.add_argument('--glider', action='store_true', required=False)
-    parser.add_argument('--gosper', action='store_true', required=False)
+    parser.add_argument('--grid-size', dest='N', required=False) # for definig a custom grid size
+    parser.add_argument('--mov-file', dest='movfile', required=False) # file name for output video file
+    parser.add_argument('--interval', dest='interval', required=False) # update interval for the animation 
+    parser.add_argument('--glider', action='store_true', required=False) # to add the glider pattern as the initial input, if omitted the grid would be randomly populated
+    parser.add_argument('--gosper', action='store_true', required=False) # to add the gosper pattern as the initial input
+    
     args = parser.parse_args()
 
     # set grid size 
